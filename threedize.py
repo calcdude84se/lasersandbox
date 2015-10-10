@@ -26,7 +26,7 @@ class View(object):
 def threedize_phi_angles(data, view, cameraposor, laserpos, lasertheta):
     per_angles = [threedize(xys, view,
                             cameraposor,
-                            Posor(laserpos, lasertheta, phi, 0)))
+                            Posor(laserpos, lasertheta, phi, 0))
                   for (phi, xys) in data]
     return np.concat(per_angles)
 
