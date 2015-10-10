@@ -102,9 +102,9 @@ def calc_rot_matrix(posor):
     return theta * phi * psi
 
 def intersect(plane, ray_pos, rays):
-    nt = plane.normal.transpose()
+    nt = plane.normal.T
     rel = (np.array(rays) * np.array((nt * (plane.pos - ray_pos))[0, 0] / np.array(nt * rays)[0])).transpose()
     return np.array(ray_pos.transpose())[0] + rel
 
 def coord(*args):
-    return np.mat([args], dtype=npfloat).transpose()
+    return np.mat([args], dtype=npfloat).T
