@@ -30,3 +30,7 @@ def calc_phi_points(points, laserpos, lasertheta):
 
 def calc_phi_norm(norm):
     return np.arctan2(norm[2], npl.norm(norm[:2]))
+
+def tag_data(data, ref_half_plane, view, cameraposor, laserpos, lasertheta):
+    return [(calc_phi(xys, ref_half_plane, view, cameraposor, laserpos, lasertheta),
+             xys) for xys in data]
