@@ -21,19 +21,20 @@ class View(object):
         self.dist = dist
         self.angle = angle
 
-# data is a list of triples whose first element is phi and whose second and
-# third elements are x and y arrays.  Return 3 numpy arrays
+# data is a list of pairs whose first element is phi and whose second element is
+# an array of x--y pairs.  Return an array of x--y--z triples
 def threedize_phi_angles(data, view, cameraposor, laserpos, lasertheta):
-    per_angles = [np.array(threedize(xs, ys, view,
-                                     cameraposor,
-                                     Posor(laserpos, lasertheta, phi, 0)))
-                  for (phi, xs, ys) in data]
-    return tuple(np.concat(per_angles, axis=1))
+    per_angles = [threedize(xys, view,
+                            cameraposor,
+                            Posor(laserpos, lasertheta, phi, 0)))
+                  for (phi, xys) in data]
+    return np.concat(per_angles)
 
-# Take 2 numpy arrays, xs and ys, along with the view, represented as an object
+# Take an array of pairs xys, along with the view, represented as an object
 # with centerx, centery, dist, angle, and two objects camerapos, with
 # pos, theta, phi, and psi, and laserpos, with pos, theta, and phi.
-# Return 3 numpy arrays, giving the corresponding points in absolute coördinates
+# Return an array of x--y--z triples, giving the corresponding points in
+# absolute coördinates
 
 # Laser starts out as the plane with normal y = z = 0.  Orientation is created
 # in the following way: Start by looking along the positive x axis, with z up.
@@ -46,12 +47,15 @@ def threedize_phi_angles(data, view, cameraposor, laserpos, lasertheta):
 # [ cos th -sin th 0 ] [ cos ph 0 -sin ph ] [ 1      0       0 ]
 # [ sin th  cos th 0 ] [      0 1       0 ] [ 0 cos ps -sin ps ]
 # [      0       0 1 ] [ sin ph 0  cos ph ] [ 0 sin ps  cos ps ]
-def threedize(xs, ys, view, cameraposor, laserposor):
+def threedize(xys, view, cameraposor, laserposor):
     plane = calc_plane(laserposor)
-    rays = calc_rays(xs, ys, view)
+    return threedize_plane(xys, view, cameraposor, plane)
+
+def threedize_plane(xys, view, cameraposor, plane):
+    rays = calc_rays(xys, view)
     rot_rays = rotate(rays, cameraposor)
     3d_points = intersect(plane, cameraposor.pos, rot_rays)
-    return tuple(3d_points)
+    return 3d_points
 
 class Plane(object):
     def __init__(self, pos, normal):
@@ -69,11 +73,14 @@ def rotate(points, posor):
     rot_matrix = calc_rot_matrix(posor)
     return rot_matrix * points
 
-def calc_rays(xs, ys, view):
+def unrotate(points, posor):
+    rot_matrix = calc_rot_matrix(posor)
+    return rot_matrix.inverse() * points
+
+def calc_rays(xys, view):
     something = view.dist/np.tan(view.angle)
-    cxs = xs - view.centerx
-    cys = ys - view.centery
-    return np.mat([np.full(len(xs), something), cxs, -cys], dtype=np.float)
+    cxys = xys - np.array([view.centerx, view.centery])
+    return np.mat([np.full(len(xs), something), cxys[:, 0], -cys[:, 1]], dtype=np.float)
 
 def calc_rot_matrix(posor):
     th = posor.theta
@@ -92,9 +99,8 @@ def calc_rot_matrix(posor):
 
 def intersect(plane, ray_pos, rays):
     nt = plane.normal.transpose()
-    rel = np.array(rays.transpose()) * np.array((nt * (plane.pos - ray_pos))[0, 0] / np.array(nt * rays)[0])
-    array = np.array(ray_pos.transpose())[0] + rel
-    return np.matrix(array).transpose()
+    rel = (np.array(rays) * np.array((nt * (plane.pos - ray_pos))[0, 0] / np.array(nt * rays)[0])).transpose()
+    return np.array(ray_pos.transpose())[0] + rel
 
 def coord(*args):
     return np.mat([args], dtype=np.float).transpose()
