@@ -55,8 +55,8 @@ def threedize(xys, view, cameraposor, laserposor):
 def threedize_plane(xys, view, cameraposor, plane):
     rays = calc_rays(xys, view)
     rot_rays = rotate(rays, cameraposor)
-    3d_points = intersect(plane, cameraposor.pos, rot_rays)
-    return 3d_points
+    threed_points = intersect(plane, cameraposor.pos, rot_rays)
+    return threed_points
 
 class Plane(object):
     def __init__(self, pos, normal):
