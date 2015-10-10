@@ -8,7 +8,7 @@ class Posor(object):
         self.psi = psi
 
 # Take 2 numpy arrays, xs and ys, along with the view, represented as an object
-# with minx, maxx, miny, maxy, xangle, yangle, and two objects camerapos, with
+# with centerx, centery, dist, angle, and two objects camerapos, with
 # pos, theta, phi, and psi, and laserpos, with pos, theta, and phi.
 # Return 3 numpy arrays, giving the corresponding points in absolute coördinates
 
