@@ -7,6 +7,13 @@ class Posor(object):
         self.phi = phi
         self.psi = psi
 
+class View(object):
+    def __init__(self, centerx, centery, dist, angle):
+        self.centerx = centerx
+        self.centery = centery
+        self.dist = dist
+        self.angle = angle
+
 # Take 2 numpy arrays, xs and ys, along with the view, represented as an object
 # with centerx, centery, dist, angle, and two objects camerapos, with
 # pos, theta, phi, and psi, and laserpos, with pos, theta, and phi.
