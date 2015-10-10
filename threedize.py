@@ -1,5 +1,8 @@
 # coding=utf-8
 import numpy.matlib as np
+import numpy
+
+npfloat = numpy.float
 
 # To use:
 # - Call threedize(xs, ys, view, cameraposor, laserposor), where:
@@ -81,21 +84,21 @@ def unrotate(points, posor):
 def calc_rays(xys, view):
     something = view.dist/np.tan(view.angle)
     cxys = xys - np.array([view.centerx, view.centery])
-    return np.mat([np.full(len(xs), something), cxys[:, 0], -cys[:, 1]], dtype=np.float)
+    return np.mat([np.full(len(xs), something), cxys[:, 0], -cys[:, 1]], dtype=npfloat)
 
 def calc_rot_matrix(posor):
     th = posor.theta
     theta = np.mat([[np.cos(th), -np.sin(th), 0],
                     [np.sin(th), np.cos(th), 0],
-                    [0, 0, 1]], dtype=np.float)
+                    [0, 0, 1]], dtype=npfloat)
     ph = posor.phi
     phi = np.mat([[np.cos(ph), 0, -np.sin(ph)],
                   [0, 1, 0],
-                  [np.sin(ph), 0, np.cos(ph)]], dtype=np.float)
+                  [np.sin(ph), 0, np.cos(ph)]], dtype=npfloat)
     ps = posor.psi
     psi = np.mat([[1, 0, 0],
                   [0, np.cos(ps), -np.sin(ps)],
-                  [0, np.sin(ps), np.cos(ps)]], dtype=np.float)
+                  [0, np.sin(ps), np.cos(ps)]], dtype=npfloat)
     return theta * phi * psi
 
 def intersect(plane, ray_pos, rays):
@@ -104,4 +107,4 @@ def intersect(plane, ray_pos, rays):
     return np.array(ray_pos.transpose())[0] + rel
 
 def coord(*args):
-    return np.mat([args], dtype=np.float).transpose()
+    return np.mat([args], dtype=npfloat).transpose()
