@@ -14,3 +14,9 @@
 # [ cos th -sin th 0 ] [ cos ph 0 -sin ph ] [ 1      0       0 ]
 # [ sin th  cos th 0 ] [      0 1       0 ] [ 0 cos ps -sin ps ]
 # [      0       0 1 ] [ sin ph 0  cos ph ] [ 0 sin ps  cos ps ]
+def 3dize(xs, ys, view, camerapos, laserpos):
+    plane = calc_plane(laserpos)
+    rays = calc_rays(xs, ys, view)
+    rot_rays = rotate(rays, camerapos)
+    3d_points = intersect(plane, camerapos, rot_rays)
+    return 3d_points
