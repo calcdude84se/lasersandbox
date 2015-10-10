@@ -79,7 +79,7 @@ def rotate(points, posor):
 
 def unrotate(points, posor):
     rot_matrix = calc_rot_matrix(posor)
-    return rot_matrix.inverse() * points
+    return rot_matrix.I * points
 
 def calc_rays(xys, view):
     something = view.dist/np.tan(view.angle)
