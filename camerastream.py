@@ -33,6 +33,7 @@ waitCountdown()
 video = ["ERROR"] * 100
 for i in range(100):
     video[i] = cam.get_image()
+    print "frame: " , i
     
 cam.stop()
 
@@ -45,9 +46,10 @@ for i in range(100):
     npvideo[i] = np.frombuffer(video[i].get_buffer(), dtype = np.uint8).reshape(480, 640, 3).astype(np.int)
 
 
-diff = (lfreenpimage - npvideo[50])/2 + 128
+diff = [ (lfreenpimage - npvideo_frame)/2 + 128 for npvideo_frame in npvideo ] 
 
-diffratio = diff[:,:,2].astype(np.float) / (diff[:,:,0] + diff[:,:,1] + diff[:,:,2])
+
+diffratio = [diff_el[:,:,2].astype(np.float) / (diff_el[:,:,0] + diff_el[:,:,1] + diff_el[:,:,2]) for diff_el in diff]
 
 if __name__ == "__main__":
     plt.imshow(diff[:,:,2].astype(np.float) / (diff[:,:,0] + diff[:,:,1] + diff[:,:,2]))
