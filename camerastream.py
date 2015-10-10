@@ -51,7 +51,9 @@ diff = [ (lfreenpimage - npvideo_frame)/2 + 128 for npvideo_frame in npvideo ]
 
 diffratio = [diff_el[:,:,2].astype(np.float) / (diff_el[:,:,0] + diff_el[:,:,1] + diff_el[:,:,2]) for diff_el in diff]
 
+mid = diffratio[50]
+
 if __name__ == "__main__":
-    plt.imshow(diff[:,:,2].astype(np.float) / (diff[:,:,0] + diff[:,:,1] + diff[:,:,2]))
+    plt.imshow(mid)
     plt.colorbar()
     plt.show()
