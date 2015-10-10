@@ -41,3 +41,8 @@ def calc_plane(posor):
     normal = np.mat([[1, 0, 0]], dtype=np.float).transpose()
     rot_normal = rotate(normal, posor)
     return Plane(posor.pos, rot_normal)
+
+# points is a matrix
+def rotate(points, posor):
+    rot_matrix = calc_rot_matrix(posor)
+    return rot_matrix * points
