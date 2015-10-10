@@ -38,9 +38,8 @@ class Plane(object):
 # Take a posor object and return another object with point x, y, z and normal
 # dx, dy, dz
 def calc_plane(posor):
-    normal = np.mat([[1, 0, 0]], dtype=np.float).transpose()
-    rot_normal = rotate(normal, posor)
-    return Plane(posor.pos, rot_normal)
+    normal = rotate(coord(1, 0, 0), posor)
+    return Plane(posor.pos, normal)
 
 # points is a matrix
 def rotate(points, posor):
@@ -73,3 +72,6 @@ def intersect(plane, ray_pos, rays):
     rel = np.array(rays.transpose()) * np.array((nt * (plane.pos - ray_pos))[0, 0] / np.array(nt * rays)[0])
     array = np.array(ray_pos.transpose())[0] + rel
     return np.matrix(array).transpose()
+
+def coord(*args):
+    return np.mat([args], dtype=np.float).transpose()
