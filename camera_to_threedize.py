@@ -1,5 +1,6 @@
 import threedize as ddd
 import numpy.matlib as np
+import numpy.linalg as npl
 
 # Prepare data from the camera for use with threedize.threedize_phi_angles
 
@@ -21,3 +22,12 @@ def calc_phi(xys, ref_half_plane, view, cameraposor, laserpos, lasertheta):
     good_xys = xys[dot_products >= 0]
     threepoints = ddd.threedize_plane(good_xys, view, cameraposor, ref_half_plane)
     return calc_phi_points(threepoints, laserpos, lasertheta)
+
+def calc_phi_points(points, laserpos, lasertheta):
+    plane_line = ddd.coords(-np.sin(lasertheta), np.cos(lasertheta), 0) + laserpos
+    normals = np.cross(plane_line, points - np.array(laserpos.transpose())[0])
+    # Division does not work
+    return calc_phi_norm(np.average(normals / npl.norm(normals)), axis = 1))
+
+def calc_phi_norm(norm):
+    return np.arctan2(norm[2], npl.norm(norm[:2]))
