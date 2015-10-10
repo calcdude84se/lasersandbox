@@ -1,5 +1,12 @@
 import numpy.matlib as np
 
+# To use:
+# - Call threedize(xs, ys, view, cameraposor, laserposor), where:
+#   - xs and ys are numpy arrays
+#   - view is created with View
+#   - the *posors are created with Posor(pos, theta, phi, psi)
+#     - pos is created with coords
+
 class Posor(object):
     def __init__(self, pos, theta, phi, psi):
         self.pos = pos
