@@ -10,9 +10,9 @@ class HalfPlane(object):
         self.normal = normal
         self.side = side
 
-def calc_phi(xys, ref_pos, ref_side, view, cameraposor, laserpos, lasertheta):
-    cref_pos = ddd.unrotate(ref_pos - cameraposor.pos, cameraposor)
-    cref_side = ddd.unrotate(ref_side, cameraposor)
+def calc_phi(xys, ref_half_plane, view, cameraposor, laserpos, lasertheta):
+    cref_pos = ddd.unrotate(ref_half_plane.pos - cameraposor.pos, cameraposor)
+    cref_side = ddd.unrotate(ref_half_plane.side, cameraposor)
     # TODO less copy-pasta
     cpos = np.array([cref_pos[1, 0], -cref_pos[2, 0]])
     cside = np.array([cref_side[1, 0], -cref_side[2, 0]])
