@@ -28,7 +28,7 @@ def 3dize(xs, ys, view, cameraposor, laserposor):
     rays = calc_rays(xs, ys, view)
     rot_rays = rotate(rays, cameraposor)
     3d_points = intersect(plane, cameraposor.pos, rot_rays)
-    return 3d_points
+    return tuple(3d_points)
 
 class Plane(object):
     def __init__(self, pos, normal):
@@ -67,3 +67,9 @@ def calc_rot_matrix(posor):
                   [0, np.cos(ps), -np.sin(ps)],
                   [0, np.sin(ps), np.cos(ps)]], dtype=np.float)
     return theta * phi * psi
+
+def intersect(plane, ray_pos, rays):
+    nt = plane.normal.transpose()
+    rel = np.array(rays.transpose()) * np.array((nt * (plane.pos - ray_pos))[0, 0] / np.array(nt * rays)[0])
+    array = np.array(ray_pos.transpose())[0] + rel
+    return np.matrix(array).transpose()
