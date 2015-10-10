@@ -52,3 +52,18 @@ def calc_rays(xs, ys, view):
     cxs = xs - view.centerx
     cys = ys - view.centery
     return np.mat([np.full(len(xs), something), cxs, -cys], dtype=np.float)
+
+def calc_rot_matrix(posor):
+    th = posor.theta
+    theta = np.mat([[np.cos(th), -np.sin(th), 0],
+                    [np.sin(th), np.cos(th), 0],
+                    [0, 0, 1]], dtype=np.float)
+    ph = posor.phi
+    phi = np.mat([[np.cos(ph), 0, -np.sin(ph)],
+                  [0, 1, 0],
+                  [np.sin(ph), 0, np.cos(ph)]], dtype=np.float)
+    ps = posor.psi
+    psi = np.mat([[1, 0, 0],
+                  [0, np.cos(ps), -np.sin(ps)],
+                  [0, np.sin(ps), np.cos(ps)]], dtype=np.float)
+    return theta * phi * psi
