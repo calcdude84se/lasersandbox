@@ -1,3 +1,4 @@
+# coding=utf-8
 import numpy.matlib as np
 
 # To use:
