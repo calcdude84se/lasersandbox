@@ -92,7 +92,7 @@ def calc_rot_matrix(posor):
 
 def intersect(plane, ray_pos, rays):
     nt = plane.normal.transpose()
-    rel = np.array(rays.transpose()) * np.array((nt * (plane.pos - ray_pos))[0, 0] / np.array(nt * rays)[0])
+    rel = (np.array(rays) * np.array((nt * (plane.pos - ray_pos))[0, 0] / np.array(nt * rays)[0])).transpose()
     return np.array(ray_pos.transpose())[0] + rel
 
 def coord(*args):
