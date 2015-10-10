@@ -14,3 +14,6 @@ ref_half_plane = c23d.HalfPlane(ddd.coords(36, 0, 18.5), # y-coord should not ma
                                 ddd.coords(1, 0, 0))
 
 view = ddd.View(319.5, 239.5, 490, 25 * np.pi / 180)
+
+def default_threedize_phi_angles(data):
+    return c23d.threedize_phi_angles(data, ref_half_plane, view, cameraposor, laserpos, lasertheta)
