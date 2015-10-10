@@ -21,6 +21,15 @@ class View(object):
         self.dist = dist
         self.angle = angle
 
+# data is a list of triples whose first element is phi and whose second and
+# third elements are x and y arrays.  Return 3 numpy arrays
+def threedize_phi_angles(data, view, cameraposor, laserpos, lasertheta):
+    per_angles = [np.array(threedize(xs, ys, view,
+                                     cameraposor,
+                                     Posor(laserpos, lasertheta, phi, 0)))
+                  for (phi, xs, ys) in data]
+    return tuple(np.concat(per_angles, axis=1))
+
 # Take 2 numpy arrays, xs and ys, along with the view, represented as an object
 # with centerx, centery, dist, angle, and two objects camerapos, with
 # pos, theta, phi, and psi, and laserpos, with pos, theta, and phi.
