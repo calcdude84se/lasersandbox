@@ -18,5 +18,6 @@ def calc_phi(xys, ref_half_plane, view, cameraposor, laserpos, lasertheta):
     cside = np.array([cref_side[1, 0], -cref_side[2, 0]])
     dxys = xys - cpos
     dot_products = np.array(np.mat(cside) * np.mat(dxys).transpose())[0]
-    good_dxys = dxys[dot_products >= 0]
-    
+    good_xys = xys[dot_products >= 0]
+    threepoints = ddd.threedize_plane(good_xys, view, cameraposor, ref_half_plane)
+    return calc_phi_points(threepoints, laserpos, lasertheta)
