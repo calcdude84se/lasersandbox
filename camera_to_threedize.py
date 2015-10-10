@@ -3,6 +3,9 @@ import numpy.matlib as np
 import numpy.linalg as npl
 
 # Prepare data from the camera for use with threedize.threedize_phi_angles
+def threedize_phi_angles(data, ref_half_plane, view, cameraposor, laserpos, lasertheta):
+    return ddd.threedize_phi_ang(tag_data(data, ref_half_plane, view, cameraposor, laserpos, lasertheta),
+                                 view, cameraposor, laserpos, lasertheta)
 
 # x is in the half-plane if, in addition to dot(n,x)=0, we have dot(side,x)>=0
 class HalfPlane(object):
