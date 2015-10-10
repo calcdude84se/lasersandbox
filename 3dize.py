@@ -46,3 +46,9 @@ def calc_plane(posor):
 def rotate(points, posor):
     rot_matrix = calc_rot_matrix(posor)
     return rot_matrix * points
+
+def calc_rays(xs, ys, view):
+    something = view.dist/np.tan(view.angle)
+    cxs = xs - view.centerx
+    cys = ys - view.centery
+    return np.mat([np.full(len(xs), something), cxs, -cys], dtype=np.float)
