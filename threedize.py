@@ -49,6 +49,9 @@ def threedize_phi_angles(data, view, cameraposor, laserpos, lasertheta):
 # [      0       0 1 ] [ sin ph 0  cos ph ] [ 0 sin ps  cos ps ]
 def threedize(xys, view, cameraposor, laserposor):
     plane = calc_plane(laserposor)
+    return threedize_plane(xys, view, cameraposor, plane)
+
+def threedize_plane(xys, view, cameraposor, plane):
     rays = calc_rays(xys, view)
     rot_rays = rotate(rays, cameraposor)
     3d_points = intersect(plane, cameraposor.pos, rot_rays)
