@@ -14,6 +14,8 @@ class HalfPlane(object):
         self.normal = normal
         self.side = side
 
+class NoReferenceException(Exception): pass
+
 def calc_phi(xys, ref_half_plane, view, cameraposor, laserpos, lasertheta):
     cref_pos = ddd.unrotate(ref_half_plane.pos - cameraposor.pos, cameraposor)
     cref_side = ddd.unrotate(ref_half_plane.side, cameraposor)
@@ -23,6 +25,8 @@ def calc_phi(xys, ref_half_plane, view, cameraposor, laserpos, lasertheta):
     dxys = xys - cpos
     dot_products = np.array(np.mat(cside) * np.mat(dxys).T)[0]
     good_xys = xys[dot_products >= 0]
+    if len(good_xys) == 0:
+        raise NoReferenceException()
     threepoints = ddd.threedize_plane(good_xys, view, cameraposor, ref_half_plane)
     return calc_phi_points(threepoints, laserpos, lasertheta)
 
@@ -35,5 +39,14 @@ def calc_phi_norm(norm):
     return np.arctan2(norm[2], npl.norm(norm[:2]))
 
 def tag_data(data, ref_half_plane, view, cameraposor, laserpos, lasertheta):
-    return [(calc_phi(xys, ref_half_plane, view, cameraposor, laserpos, lasertheta),
-             xys) for xys in data]
+    result = []
+    for xys in data:
+        if len(xys) == 0:
+            continue
+        try:
+            result.append((calc_phi(xys, ref_half_plane, view,
+                                    cameraposor, laserpos, lasertheta),
+                           xys))
+        except NoReferenceException:
+            pass
+    return result
