@@ -27,7 +27,7 @@ def 3dize(xs, ys, view, cameraposor, laserposor):
     plane = calc_plane(laserposor)
     rays = calc_rays(xs, ys, view)
     rot_rays = rotate(rays, cameraposor)
-    3d_points = intersect(plane, cameraposor, rot_rays)
+    3d_points = intersect(plane, cameraposor.pos, rot_rays)
     return 3d_points
 
 class Plane(object):
