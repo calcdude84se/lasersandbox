@@ -84,7 +84,7 @@ def unrotate(points, posor):
 def calc_rays(xys, view):
     something = view.dist/np.tan(view.angle)
     cxys = xys - np.array([view.centerx, view.centery])
-    return np.mat([np.full(len(xs), something), cxys[:, 0], -cys[:, 1]], dtype=npfloat)
+    return np.mat([np.full(len(xys), something), cxys[:, 0], -cxys[:, 1]], dtype=npfloat)
 
 def calc_rot_matrix(posor):
     th = posor.theta
