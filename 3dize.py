@@ -2,7 +2,7 @@ import numpy.matlib as np
 
 # Take 2 numpy arrays, xs and ys, along with the view, represented as an object
 # with minx, maxx, miny, maxy, xangle, yangle, and two objects camerapos, with
-# x, y, z, theta, phi, and psi, and laserpos, with x, y, z, theta, and phi.
+# pos, theta, phi, and psi, and laserpos, with pos, theta, and phi.
 # Return 3 numpy arrays, giving the corresponding points in absolute coördinates
 
 # Laser starts out as the plane with normal y = z = 0.  Orientation is created
@@ -24,17 +24,13 @@ def 3dize(xs, ys, view, camerapos, laserpos):
     return 3d_points
 
 class Plane(object):
-    def __init__(self, x, y, z, dx, dy, dz):
-        self.x = x
-        self.y = y
-        self.z = z
-        self.dx = dx
-        self.dy = dy
-        self.dz = dz
+    def __init__(self, pos, normal):
+        self.pos = pos
+        self.normal = normal
 
 # Take a pos object and return another object with point x, y, z and normal dx,
 # dy, dz
 def calc_plane(pos):
     normal = np.mat([[1, 0, 0]], dtype=np.float).transpose()
     rot_normal = rotate(normal, pos)
-    return Plane(pos.x, pos.y, pos.z, rot_normal[0, 0], rot_normal[1, 0], rot_normal[2, 0])
+    return Plane(pos.pos, rot_normal)
