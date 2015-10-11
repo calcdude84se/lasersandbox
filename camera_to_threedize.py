@@ -32,7 +32,7 @@ def calc_phi(xys, ref_half_plane, view, cameraposor, laserpos, lasertheta):
     return calc_phi_points(threepoints, laserpos, lasertheta)
 
 def calc_phi_points(points, laserpos, lasertheta):
-    plane_line = ddd.coord(-np.sin(lasertheta), np.cos(lasertheta), 0) + laserpos
+    plane_line = ddd.coord(-np.sin(lasertheta), np.cos(lasertheta), 0)
     normals = np.cross(np.array(plane_line.T)[0], points - np.array(laserpos.T)[0])
     return calc_phi_norm(np.average(normals / npl.norm(normals), axis = 0))
 
