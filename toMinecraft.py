@@ -2,12 +2,9 @@ import numpy as np
 
 ##a should be an np array
 ##a = np.ones((20, 10))
-a = np.fromfunction(lambda x ,y: (x-10)**2+(y-5)**2, (20,10))
-
-string = ''''''
+##a = np.fromfunction(lambda x ,y: (x-10)**2+(y-5)**2, (20,10))
 
 ##position person at viewpoint
-string += 'tp quadmasterxlii '+str(a.shape[0]/2.)+' 256 '+str(a.shape[1]/2.)+'\n'
 
 ##normalize max height of array
 def normalize(numpyArray):
@@ -17,11 +14,13 @@ def normalize(numpyArray):
             numpyArray[x][y] = 200*numpyArray[x][y]/m
     return numpyArray
 
-a = normalize(a)
+##a = normalize(a)
 
 ##create string
 def createString(numpyArray):
-    global string
+    numpyArray = normalize(numpyArray)
+    string = ''''''
+    string += 'tp quadmasterxlii '+str(numpyArray.shape[0]/2.)+' 256 '+str(numpyArray.shape[1]/2.)+'\n'
     ##erase drawing
     for x in range(0, int(numpyArray.shape[0]/10.)+1):
         for y in range(0, int(numpyArray.shape[1]/10.)+1):
@@ -33,4 +32,4 @@ def createString(numpyArray):
     string += '\n'
     return string
 
-print(createString(a))
+print(createString(np.fromfunction(lambda x ,y: (x-10)**2+(y-5)**2, (20,10))))
