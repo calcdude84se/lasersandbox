@@ -24,7 +24,7 @@ ROWNUM = 100
 pygame.camera.init()
 
 
-cam = pygame.camera.Camera("/dev/video2",(640,480))
+cam = pygame.camera.Camera("/dev/video0",(640,480))
 cam.start()
 
 def getCamStream():
@@ -57,6 +57,9 @@ def getCamStream():
     diffratio = [diff_el[:,:,2].astype(np.float) / (diff_el[:,:,0] + diff_el[:,:,1] + diff_el[:,:,2]) for diff_el in diff]
 
     mid = diffratio[50]
+
+    plt.imshow(diffratio[50])
+    plt.show()
     return diffratio
 
 if __name__ == "__main__":

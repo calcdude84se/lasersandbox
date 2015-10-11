@@ -36,6 +36,7 @@ in the reference half-plane."""
     dxys = xys - cpos
     dot_products = np.array(np.mat([cside]) * np.mat(dxys).T)[0]
     good_xys = xys[dot_products >= 0]
+    print("say "+str(np.average(good_xys[:,1])))
     if len(good_xys) == 0:
         raise NoReferenceException()
     threepoints = ddd.threedize_plane(good_xys, view, cameraposor, ref_half_plane)
@@ -68,6 +69,7 @@ cause NoReferenceException to be thrown are ignored."""
             result.append((calc_phi(xys, ref_half_plane, view,
                                     cameraposor, laserpos, lasertheta),
                            xys))
+            print("say "+str(result[-1][0]*180/np.pi))
         except NoReferenceException:
             pass
     return result
