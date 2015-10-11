@@ -1,4 +1,8 @@
+# coding=utf-8
 import numpy.matlib as np
+import numpy
+
+npfloat = numpy.float
 
 # To use:
 # - Call threedize(xs, ys, view, cameraposor, laserposor), where:
@@ -26,9 +30,9 @@ class View(object):
 def threedize_phi_angles(data, view, cameraposor, laserpos, lasertheta):
     per_angles = [threedize(xys, view,
                             cameraposor,
-                            Posor(laserpos, lasertheta, phi, 0)))
+                            Posor(laserpos, lasertheta, phi, 0))
                   for (phi, xys) in data]
-    return np.concat(per_angles)
+    return np.concatenate(per_angles)
 
 # Take an array of pairs xys, along with the view, represented as an object
 # with centerx, centery, dist, angle, and two objects camerapos, with
@@ -54,8 +58,8 @@ def threedize(xys, view, cameraposor, laserposor):
 def threedize_plane(xys, view, cameraposor, plane):
     rays = calc_rays(xys, view)
     rot_rays = rotate(rays, cameraposor)
-    3d_points = intersect(plane, cameraposor.pos, rot_rays)
-    return 3d_points
+    threed_points = intersect(plane, cameraposor.pos, rot_rays)
+    return threed_points
 
 class Plane(object):
     def __init__(self, pos, normal):
@@ -75,32 +79,32 @@ def rotate(points, posor):
 
 def unrotate(points, posor):
     rot_matrix = calc_rot_matrix(posor)
-    return rot_matrix.inverse() * points
+    return rot_matrix.I * points
 
 def calc_rays(xys, view):
     something = view.dist/np.tan(view.angle)
     cxys = xys - np.array([view.centerx, view.centery])
-    return np.mat([np.full(len(xs), something), cxys[:, 0], -cys[:, 1]], dtype=np.float)
+    return np.mat([np.full(len(xys), something), cxys[:, 0], -cxys[:, 1]], dtype=npfloat)
 
 def calc_rot_matrix(posor):
     th = posor.theta
     theta = np.mat([[np.cos(th), -np.sin(th), 0],
                     [np.sin(th), np.cos(th), 0],
-                    [0, 0, 1]], dtype=np.float)
+                    [0, 0, 1]], dtype=npfloat)
     ph = posor.phi
     phi = np.mat([[np.cos(ph), 0, -np.sin(ph)],
                   [0, 1, 0],
-                  [np.sin(ph), 0, np.cos(ph)]], dtype=np.float)
+                  [np.sin(ph), 0, np.cos(ph)]], dtype=npfloat)
     ps = posor.psi
     psi = np.mat([[1, 0, 0],
                   [0, np.cos(ps), -np.sin(ps)],
-                  [0, np.sin(ps), np.cos(ps)]], dtype=np.float)
+                  [0, np.sin(ps), np.cos(ps)]], dtype=npfloat)
     return theta * phi * psi
 
 def intersect(plane, ray_pos, rays):
-    nt = plane.normal.transpose()
+    nt = plane.normal.T
     rel = (np.array(rays) * np.array((nt * (plane.pos - ray_pos))[0, 0] / np.array(nt * rays)[0])).transpose()
     return np.array(ray_pos.transpose())[0] + rel
 
 def coord(*args):
-    return np.mat([args], dtype=np.float).transpose()
+    return np.mat([args], dtype=npfloat).T
