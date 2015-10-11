@@ -32,7 +32,7 @@ def threedize_phi_angles(data, view, cameraposor, laserpos, lasertheta):
                             cameraposor,
                             Posor(laserpos, lasertheta, phi, 0))
                   for (phi, xys) in data]
-    return np.concat(per_angles)
+    return np.concatenate(per_angles)
 
 # Take an array of pairs xys, along with the view, represented as an object
 # with centerx, centery, dist, angle, and two objects camerapos, with
