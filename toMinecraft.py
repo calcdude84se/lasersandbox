@@ -20,7 +20,7 @@ def normalize(numpyArray):
 def createString(numpyArray):
     numpyArray = normalize(numpyArray)
     string = ''''''
-    string += 'tp quadmasterxlii '+str(numpyArray.shape[0]/2.)+' 256 '+str(numpyArray.shape[1]/2.)+'\n'
+    string += 'tp quadmasterxlii '+str(numpyArray.shape[0]/2.)+' 80 '+str(numpyArray.shape[1]/2.)+'\n'
 ##    m = np.amin(numpyArray)
 ##    for x in np.arange(0, numpyArray.shape[0]):
 ##        for y in np.arange(0, numpyArray.shape[1]):
