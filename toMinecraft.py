@@ -32,4 +32,4 @@ def createString(numpyArray):
     string += '\n'
     return string
 
-print(createString(np.fromfunction(lambda x ,y: (x-10)**2+(y-5)**2, (20,10))))
+##print(createString(np.fromfunction(lambda x ,y: (x-10)**2+(y-5)**2, (20,10))))
