@@ -18,7 +18,7 @@ def interpolate(xmesh, ymesh, pointcloud):
     
     z = z.reshape(shape)
     
-    z = filt.gaussian_filter(z, 2)
+    #z = filt.gaussian_filter(z, 2)
     
     return z, mytree
 
