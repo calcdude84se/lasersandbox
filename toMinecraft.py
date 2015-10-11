@@ -2,6 +2,7 @@ import numpy as np
 
 ##a should be an np array
 ##a = np.ones((20, 10))
+a = np.fromfunction(lambda x ,y: (x-10)**2+(y-5)**2, (20,10))
 
 string = ''''''
 
