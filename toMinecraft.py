@@ -1,4 +1,4 @@
-aadimport numpy as np
+import numpy as np
 
 ##a should be an np array
 ##a = np.ones((20, 10))

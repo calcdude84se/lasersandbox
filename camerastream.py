@@ -16,7 +16,7 @@ import serialConnection
 def waitCountdown():
    for i in range(4, 0, -1):
        time.sleep(1)
-       print i
+       #print i
 
 ROWNUM = 100
 
@@ -24,38 +24,40 @@ ROWNUM = 100
 pygame.camera.init()
 
 
-cam = pygame.camera.Camera("/dev/video1",(640,480))
+cam = pygame.camera.Camera("/dev/video2",(640,480))
 cam.start()
-cam.get_image()
-waitCountdown()
-lfreeimage = cam.get_image()
 
-waitCountdown()
+def getCamStream():
+    cam.get_image()
+    waitCountdown()
+    lfreeimage = cam.get_image()
 
-serialConnection.activate("go!")
-time.sleep(.7)
-video = ["ERROR"] * ROWNUM
-for i in range(ROWNUM):
-    video[i] = cam.get_image()
-    print "frame: " , i
-    
-cam.stop()
+    waitCountdown()
 
-lfreenpimage = np.frombuffer(lfreeimage.get_buffer(), dtype = np.uint8).reshape(480, 640, 3).astype(np.int)
+    serialConnection.activate("go!")
+    time.sleep(.7)
+    video = ["ERROR"] * ROWNUM
+    for i in range(ROWNUM):
+        video[i] = cam.get_image()
+        print "say frame: " , i
 
 
-
-npvideo = ["error"] * ROWNUM
-for i in range(ROWNUM):
-    npvideo[i] = np.frombuffer(video[i].get_buffer(), dtype = np.uint8).reshape(480, 640, 3).astype(np.int)
+    lfreenpimage = np.frombuffer(lfreeimage.get_buffer(), dtype = np.uint8).reshape(480, 640, 3).astype(np.int)
 
 
-diff = [ (lfreenpimage - npvideo_frame)/2 + 128 for npvideo_frame in npvideo ] 
+
+    npvideo = ["error"] * ROWNUM
+    for i in range(ROWNUM):
+        npvideo[i] = np.frombuffer(video[i].get_buffer(), dtype = np.uint8).reshape(480, 640, 3).astype(np.int)
 
 
-diffratio = [diff_el[:,:,2].astype(np.float) / (diff_el[:,:,0] + diff_el[:,:,1] + diff_el[:,:,2]) for diff_el in diff]
+    diff = [ (lfreenpimage - npvideo_frame)/2 + 128 for npvideo_frame in npvideo ] 
 
-mid = diffratio[50]
+
+    diffratio = [diff_el[:,:,2].astype(np.float) / (diff_el[:,:,0] + diff_el[:,:,1] + diff_el[:,:,2]) for diff_el in diff]
+
+    mid = diffratio[50]
+    return diffratio
 
 if __name__ == "__main__":
     plt.imshow(mid)

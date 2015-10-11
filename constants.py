@@ -6,7 +6,7 @@ camerapos = ddd.coord(20, 37, 47)
 camera_phi = -np.pi*8/18 # TODO this is wrong
 cameraposor = ddd.Posor(camerapos, -np.pi/2, camera_phi, 0)
 
-laserpos = ddd.coord(0, 0, 59.5) # x-coord should not matter
+laserpos = ddd.coord(0, 0, 61) # x-coord should not matter
 lasertheta = np.pi/2
 
 ref_half_plane = c23d.HalfPlane(ddd.coord(36, 0, 18.5), # y-coord should not matter
