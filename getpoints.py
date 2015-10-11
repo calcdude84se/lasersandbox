@@ -64,7 +64,7 @@ if __name__ == "__main__":
    plt.imshow(camst.diffratio[50])
    plt.plot(minarray[50])
    plt.show()
-   plt.plot(pointcloud[:,0] + .5 * pointcloud[:,2] , pointcloud[:,1] + .5 * pointcloud[:,2], "-")
+   plt.plot(pointcloud[:,0] + .5 * pointcloud[:,2] , pointcloud[:,1] + .5 * pointcloud[:,2], ",")
    
    plt.show()
    
