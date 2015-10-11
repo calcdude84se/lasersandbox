@@ -19,10 +19,15 @@ class NoReferenceException(Exception): pass
 def calc_phi(xys, ref_half_plane, view, cameraposor, laserpos, lasertheta):
     cref_pos = ddd.unrotate(ref_half_plane.pos - cameraposor.pos, cameraposor)
     cref_side = ddd.unrotate(ref_half_plane.side, cameraposor)
+    cref_line = np.cross(cref_side, ddd.unrotate(ref_half_plane.normal, cameraposor), axis = 0)
     # TODO less copy-pasta
     cpos = np.array([cref_pos[1, 0], -cref_pos[2, 0]]) / cref_pos[0, 0] * ddd.view_number(view) \
            + np.array([view.centerx, view.centery])
-    cside = np.array([cref_side[1, 0], -cref_side[2, 0]])
+    cline_ = cref_pos / cref_pos[0, 0] - cref_line / cref_line[0, 0]
+    cside_ = np.array([cref_side[1, 0], -cref_side[2, 0]])
+    cside = np.array([cline_[2, 0], cline_[1, 0]])
+    if np.dot(cside, cside_) < 0:
+        cside = - cside
     dxys = xys - cpos
     dot_products = np.array(np.mat([cside]) * np.mat(dxys).T)[0]
     good_xys = xys[dot_products >= 0]

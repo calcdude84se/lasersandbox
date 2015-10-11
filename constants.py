@@ -2,7 +2,7 @@ import threedize as ddd
 import camera_to_threedize as c23d
 import numpy as np
 
-camerapos = ddd.coord(20, 37, 47)
+camerapos = ddd.coord(26, 37, 47)
 camera_phi = -np.pi*8/18 # TODO this is wrong
 cameraposor = ddd.Posor(camerapos, -np.pi/2, camera_phi, 0)
 
