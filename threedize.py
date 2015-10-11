@@ -82,9 +82,12 @@ def unrotate(points, posor):
     return rot_matrix.I * points
 
 def calc_rays(xys, view):
-    something = view.dist/np.tan(view.angle)
+    something = view_number(view)
     cxys = xys - np.array([view.centerx, view.centery])
     return np.mat([np.full(len(xys), something), cxys[:, 0], -cxys[:, 1]], dtype=npfloat)
+
+def view_number(view):
+    return view.dist/np.tan(view.angle)
 
 def calc_rot_matrix(posor):
     th = posor.theta
@@ -103,7 +106,7 @@ def calc_rot_matrix(posor):
 
 def intersect(plane, ray_pos, rays):
     nt = plane.normal.T
-    rel = (np.array(rays) * np.array((nt * (plane.pos - ray_pos))[0, 0] / np.array(nt * rays)[0])).transpose()
+    rel = (np.array(rays) * ((nt * (plane.pos - ray_pos))[0, 0] / np.array(nt * rays)[0])).transpose()
     return np.array(ray_pos.transpose())[0] + rel
 
 def coord(*args):
