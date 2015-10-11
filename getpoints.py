@@ -34,7 +34,7 @@ nminarray = np.array(minarray)
 nminarray = filt.gaussian_filter(nminarray, 4)
 npangles = np.array(angles)
 npangles = filt.gaussian_filter(npangles, 4)
-for j in range(100):
+for j in range(camst.ROWNUM):
     mins, nonconfidences, flat_representative = nminarray[j], nonconfarray[j], npangles[j]
     
     realmins = []
