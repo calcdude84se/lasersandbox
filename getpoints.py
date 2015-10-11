@@ -31,9 +31,9 @@ def getpoints(diffratio):
     
     nminarray = np.array(minarray)
 
-    nminarray = filt.gaussian_filter(nminarray, 4)
+    nminarray = filt.gaussian_filter(nminarray, 1)
     npangles = np.array(angles)
-    npangles = filt.gaussian_filter(npangles, 4)
+    npangles = filt.gaussian_filter(npangles, 1)
     for j in range(camst.ROWNUM):
         mins, nonconfidences, flat_representative = nminarray[j], nonconfarray[j], npangles[j]
     
@@ -54,6 +54,10 @@ def getpoints(diffratio):
     npangles = np.array(angles)
     pointcloud = np.array(flatpoints)
     sss = np.array(minarray)
+    
+    plt.plot(pointcloud[:,0] + .5 * pointcloud[:,2] , pointcloud[:,1] + .5 * pointcloud[:,2], ",")
+   
+    plt.show()
 
     PackedData = [(angle, np.array(array)) for angle, array in zip(angles, image)]
     with open("Data", "w") as f:
