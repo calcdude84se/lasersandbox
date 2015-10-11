@@ -24,7 +24,7 @@ def calc_phi(xys, ref_half_plane, view, cameraposor, laserpos, lasertheta):
            + np.array([view.centerx, view.centery])
     cside = np.array([cref_side[1, 0], -cref_side[2, 0]])
     dxys = xys - cpos
-    dot_products = np.array(np.mat(cside) * np.mat(dxys).T)[0]
+    dot_products = np.array(np.mat([cside]) * np.mat(dxys).T)[0]
     good_xys = xys[dot_products >= 0]
     if len(good_xys) == 0:
         raise NoReferenceException()
