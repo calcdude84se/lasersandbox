@@ -24,9 +24,9 @@ def interpolate(xmesh, ymesh, pointcloud):
 
 
 
-if __name__ == "__main__":
-    xarray = np.linspace(-5, 5, 400)
-    yarray = np.linspace(-5, 5, 400)
+def test():
+    xarray = np.linspace(-5, 5, 30)
+    yarray = np.linspace(-5, 5, 30)
     
     xmesh, ymesh = np.meshgrid(xarray, yarray)
     
@@ -37,14 +37,15 @@ if __name__ == "__main__":
     pointcloud = np.array([xpoint, ypoint, zpoint]).transpose()
     
     zarray , mytree = interpolate(xmesh, ymesh, pointcloud)
-    zarray = filt.gaussian_filter(zarray, 4)
-    plt.imshow(zarray)
+    #zarray = filt.gaussian_filter(zarray, 4)
+    return zarray
+    
+    
+    
+if __name__ == "__main__":
+    z = test()
+    plt.imshow(z)
     plt.show()
-    
-    
-    
-    
-    
     
     
 
