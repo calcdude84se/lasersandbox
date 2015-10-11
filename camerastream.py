@@ -11,12 +11,14 @@ import matplotlib.cm as cm
 
 import time
 
+import serialConnection
+
 def waitCountdown():
    for i in range(4, 0, -1):
        time.sleep(1)
        print i
 
-
+ROWNUM = 100
 
 
 pygame.camera.init()
@@ -30,8 +32,10 @@ lfreeimage = cam.get_image()
 
 waitCountdown()
 
-video = ["ERROR"] * 100
-for i in range(100):
+serialConnection.activate("go!")
+time.sleep(.7)
+video = ["ERROR"] * ROWNUM
+for i in range(ROWNUM):
     video[i] = cam.get_image()
     print "frame: " , i
     
@@ -41,8 +45,8 @@ lfreenpimage = np.frombuffer(lfreeimage.get_buffer(), dtype = np.uint8).reshape(
 
 
 
-npvideo = ["error"] * 100
-for i in range(100):
+npvideo = ["error"] * ROWNUM
+for i in range(ROWNUM):
     npvideo[i] = np.frombuffer(video[i].get_buffer(), dtype = np.uint8).reshape(480, 640, 3).astype(np.int)
 
 
