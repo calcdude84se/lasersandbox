@@ -20,7 +20,8 @@ def calc_phi(xys, ref_half_plane, view, cameraposor, laserpos, lasertheta):
     cref_pos = ddd.unrotate(ref_half_plane.pos - cameraposor.pos, cameraposor)
     cref_side = ddd.unrotate(ref_half_plane.side, cameraposor)
     # TODO less copy-pasta
-    cpos = np.array([cref_pos[1, 0], -cref_pos[2, 0]])
+    cpos = np.array([cref_pos[1, 0], -cref_pos[2, 0]]) / cref_pos[0, 0] * ddd.view_number(view) \
+           + np.array([view.centerx, view.centery])
     cside = np.array([cref_side[1, 0], -cref_side[2, 0]])
     dxys = xys - cpos
     dot_products = np.array(np.mat(cside) * np.mat(dxys).T)[0]
