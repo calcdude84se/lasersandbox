@@ -16,4 +16,7 @@ ref_half_plane = c23d.HalfPlane(ddd.coord(36, 0, 18.5), # y-coord should not mat
 view = ddd.View(319.5, 239.5, 245, 25 * np.pi / 180)
 
 def default_threedize_phi_angles(data):
+    """Calculate the array of x-y-z triples associated with the list of arrays of
+pixel triples data taken by the configuration defined by the constants in this
+module."""
     return c23d.threedize_phi_angles(data, ref_half_plane, view, cameraposor, laserpos, lasertheta)
