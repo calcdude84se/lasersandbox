@@ -1,2 +1,2 @@
 # lasersandbox
-Lasers and sandboxes
+Lazors and sandboxes
